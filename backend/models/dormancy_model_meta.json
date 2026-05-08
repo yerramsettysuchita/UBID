@@ -1,0 +1,69 @@
+{
+  "model_type": "GradientBoosting",
+  "task": "dormancy_prediction",
+  "training_samples": 344,
+  "positive_samples": 84,
+  "negative_samples": 260,
+  "test_size": 69,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "roc_auc": 1.0,
+  "average_precision": 1.0,
+  "feature_names": [
+    "days_since_last_event",
+    "events_last_6m",
+    "events_6_12m",
+    "trend_ratio",
+    "dept_count",
+    "has_bescom_6m",
+    "has_inspection_6m",
+    "confidence_score"
+  ],
+  "feature_importances": {
+    "days_since_last_event": 0.4039,
+    "events_last_6m": 0.1232,
+    "events_6_12m": 0.0,
+    "trend_ratio": 0.1964,
+    "dept_count": 0.0,
+    "has_bescom_6m": 0.2765,
+    "has_inspection_6m": 0.0,
+    "confidence_score": 0.0
+  },
+  "model_comparison": [
+    {
+      "name": "GradientBoosting",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "cv_f1": 1.0
+    },
+    {
+      "name": "RandomForest",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "cv_f1": 1.0
+    },
+    {
+      "name": "LogisticRegression",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "cv_f1": 1.0
+    }
+  ],
+  "calibration": {
+    "fraction_of_positives": [
+      0.0,
+      1.0
+    ],
+    "mean_predicted_value": [
+      0.0,
+      1.0
+    ]
+  }
+}

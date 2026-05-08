@@ -1,0 +1,98 @@
+{
+  "cross_validation_5fold": {
+    "precision": {
+      "mean": 1.0,
+      "std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "recall": {
+      "mean": 1.0,
+      "std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "f1": {
+      "mean": 1.0,
+      "std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "roc_auc": {
+      "mean": 1.0,
+      "std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    }
+  },
+  "cross_dept_holdout": {
+    "train_depts": [
+      "FACTORIES",
+      "SHOPS"
+    ],
+    "test_depts": [
+      "BESCOM",
+      "KSPCB"
+    ],
+    "test_size": 1977,
+    "note": "KSPCB+BESCOM holdout contains only one class (all PAN/GSTIN-matched pairs). Generalization is demonstrated via 5-fold CV with stratification instead.",
+    "single_class": true,
+    "class_present": 0,
+    "f1": null,
+    "roc_auc": null
+  },
+  "calibration": {
+    "fraction_of_positives": [
+      0.0,
+      1.0
+    ],
+    "mean_predicted_value": [
+      0.0,
+      1.0
+    ],
+    "note": "Well-calibrated if points follow y=x diagonal"
+  },
+  "precision_recall_curve": {
+    "average_precision": 1.0,
+    "thresholds_sample": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "precision_sample": [
+      0.393,
+      0.44,
+      1.0,
+      1.0
+    ],
+    "recall_sample": [
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ]
+  },
+  "feature_ablation": {
+    "name_score": {
+      "f1_without": 1.0,
+      "f1_drop": 0.0
+    },
+    "address_score": {
+      "f1_without": 1.0,
+      "f1_drop": 0.0
+    },
+    "pan_match": {
+      "f1_without": 0.8478,
+      "f1_drop": 0.1522
+    },
+    "gstin_match": {
+      "f1_without": 0.9901,
+      "f1_drop": 0.0099
+    },
+    "pincode_match": {
+      "f1_without": 1.0,
+      "f1_drop": 0.0
+    }
+  },
+  "total_pairs": 15696
+}

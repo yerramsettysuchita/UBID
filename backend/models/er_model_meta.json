@@ -1,0 +1,24 @@
+{
+  "model_type": "GradientBoosting",
+  "training_samples": 15697,
+  "positive_samples": 6174,
+  "negative_samples": 9523,
+  "test_size": 3140,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "feature_names": [
+    "name_score",
+    "address_score",
+    "pan_match",
+    "gstin_match",
+    "pincode_match"
+  ],
+  "feature_importances": {
+    "name_score": 0.0,
+    "address_score": 0.0,
+    "pan_match": 0.9723,
+    "gstin_match": 0.0277,
+    "pincode_match": 0.0
+  }
+}
