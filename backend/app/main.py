@@ -61,11 +61,11 @@ async def _startup():
 
     # 2. Seed demo users if users table is empty
     DEMO_USERS = [
-        {"email": "admin@ubid.demo",      "password": "admin123",      "full_name": "Admin User",       "role": UserRole.ADMIN},
-        {"email": "supervisor@ubid.demo", "password": "supervisor123",  "full_name": "Supervisor User",  "role": UserRole.SUPERVISOR},
-        {"email": "reviewer@ubid.demo",   "password": "reviewer123",    "full_name": "Reviewer User",    "role": UserRole.REVIEWER},
-        {"email": "officer@ubid.demo",    "password": "officer123",     "full_name": "Officer User",     "role": UserRole.OFFICER},
-        {"email": "auditor@ubid.demo",    "password": "auditor123",     "full_name": "Auditor User",     "role": UserRole.AUDITOR},
+        {"email": "admin@ubid.demo",      "password": "demo1234", "full_name": "Admin User",       "role": UserRole.ADMIN},
+        {"email": "supervisor@ubid.demo", "password": "demo1234", "full_name": "Supervisor User",  "role": UserRole.SUPERVISOR},
+        {"email": "reviewer@ubid.demo",   "password": "demo1234", "full_name": "Reviewer User",    "role": UserRole.REVIEWER},
+        {"email": "officer@ubid.demo",    "password": "demo1234", "full_name": "Officer User",     "role": UserRole.OFFICER},
+        {"email": "auditor@ubid.demo",    "password": "demo1234", "full_name": "Auditor User",     "role": UserRole.AUDITOR},
     ]
     try:
         async with AsyncSessionLocal() as s:
