@@ -42,21 +42,59 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def _startup():
-    """Warm DB pool + start background scheduler."""
-    from sqlalchemy import text
+    """Create tables, seed demo users, warm pool, start scheduler."""
     from app.services.scheduler import start_scheduler
+    from app.core.security import hash_password
+    from app.models import entities as _models  # noqa: F401 — registers all ORM models
+    from app.core.database import Base
+    from sqlalchemy import select
+    from app.models.entities import User, Department
+    from app.models.base import UserRole
 
-    # 1. Pre-warm connection pool
+    # 1. Create all tables (idempotent — skips existing tables)
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("DB schema ensured (create_all)")
+    except Exception as exc:
+        logger.warning("Schema creation failed (non-fatal): %s", exc)
+
+    # 2. Seed demo users if users table is empty
+    DEMO_USERS = [
+        {"email": "admin@ubid.demo",      "password": "admin123",      "full_name": "Admin User",       "role": UserRole.ADMIN},
+        {"email": "supervisor@ubid.demo", "password": "supervisor123",  "full_name": "Supervisor User",  "role": UserRole.SUPERVISOR},
+        {"email": "reviewer@ubid.demo",   "password": "reviewer123",    "full_name": "Reviewer User",    "role": UserRole.REVIEWER},
+        {"email": "officer@ubid.demo",    "password": "officer123",     "full_name": "Officer User",     "role": UserRole.OFFICER},
+        {"email": "auditor@ubid.demo",    "password": "auditor123",     "full_name": "Auditor User",     "role": UserRole.AUDITOR},
+    ]
+    try:
+        async with AsyncSessionLocal() as s:
+            count = (await s.execute(select(User))).scalars().first()
+            if count is None:
+                for u in DEMO_USERS:
+                    s.add(User(
+                        email=u["email"],
+                        hashed_password=hash_password(u["password"]),
+                        full_name=u["full_name"],
+                        role=u["role"],
+                        is_active=True,
+                    ))
+                await s.commit()
+                logger.info("Demo users seeded (5 accounts)")
+    except Exception as exc:
+        logger.warning("User seed failed (non-fatal): %s", exc)
+
+    # 3. Pre-warm connection pool
     async def _ping():
         async with AsyncSessionLocal() as s:
             await s.execute(text("SELECT 1"))
     try:
-        await asyncio.gather(*[_ping() for _ in range(5)])
-        logger.info("DB connection pool warmed (5 connections)")
+        await asyncio.gather(*[_ping() for _ in range(3)])
+        logger.info("DB connection pool warmed")
     except Exception as exc:
         logger.warning("Pool warmup failed (non-fatal): %s", exc)
 
-    # 2. Start automated ingestion scheduler (every 6h)
+    # 4. Start automated ingestion scheduler (every 6h)
     try:
         start_scheduler(interval_hours=6.0)
         logger.info("Background ingestion scheduler started (every 6h)")
